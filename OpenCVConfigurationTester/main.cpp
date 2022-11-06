@@ -10,15 +10,15 @@
 #include <opencv2/calib3d.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
-#include <opencv2/videostab.hpp>
+//#include <opencv2/videostab.hpp>
 
 int main(int argc, char *argv[])
 {
-    qDebug() << "QApplication: ";
-    QApplication a(argc, argv);
+    QApplication a(argc, argv);    
+    qDebug() << "QApplication started. ";
     MainWindow w;
     w.show();
-    qDebug() << "show: ";
+    qDebug() << "MainWindow showed.";
 
     while (1){
         a.processEvents();

@@ -13,7 +13,7 @@
 #include <opencv2/calib3d.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
-#include <opencv2/videostab.hpp>
+//#include <opencv2/videostab.hpp>
 
 using namespace cv;
 

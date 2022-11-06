@@ -14,7 +14,14 @@
 #include <opencv2/calib3d.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
-#include <opencv2/videostab.hpp>
+//#include <opencv2/videostab.hpp>
+
+//################## OpenCvConfiguratorTester #####################
+//This is simple application that helps check,
+//verify "build and configuration" of OpenCv library for Qt framewark
+
+// here is some simple macro for simplisity of qDebug()
+#define qln(x) qDebug() << x
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -22,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent) :
     bPlay(false)
 {
     ui->setupUi(this);
+
+    vcVideo = new VideoCapture();
 }
 
 MainWindow::~MainWindow()
@@ -53,16 +62,17 @@ void MainWindow::on_btnOpenFile_clicked()
 
 void MainWindow::on_btnPlay_clicked()
 {
+    static int i = 0;
+    qDebug() << "bPlay at " << ++i << " start:" << bPlay;
+
     if(true == bPlay) {
-        qDebug() << "bPlay: true" << bPlay;
         if(vcVideo->isOpened()) {
             vcVideo->release();
         }
         bPlay = false;
     } else {
-        qDebug() << "bPlay: false" << bPlay;
+        qDebug() << "isOpened:" << vcVideo->isOpened();
         if(!vcVideo->isOpened()) {
-            qDebug() << "isOpened: false";
             if(ui->rbCamSource->isChecked()) {
                 vcVideo->open(0);
                 if(!vcVideo->isOpened()) {
@@ -71,7 +81,7 @@ void MainWindow::on_btnPlay_clicked()
                                           "Check Video source!");
                 }
                 else {
-                    qDebug() << "isOpened: true";
+                    qDebug() << "Video camera isOpened: success !!!!! OpenCV probabily configured ok.";
                     bPlay = true;
                 }
             } else if(ui->rbFileSource->isChecked()) {
@@ -81,20 +91,23 @@ void MainWindow::on_btnPlay_clicked()
                     if(!vcVideo->isOpened()) {
                         qDebug() << "isOpened: false";
                         QMessageBox::critical(this,
-                                              "Video source open error",
+                                              "Video file open error",
                                               "Check Video source!");
                     }
                     else {
-                        qDebug() << "isOpened: false";
+                        qDebug() << "Video file isOpened: success !!!!! OpenCV probabily configured ok.";
                         bPlay = true;
                     }
                 }
+                else
+                {
+                    qln("Empty video file name.");
+                }
+
             }
         } else {
-            qDebug() << "vcVideo->isOpened(): true" << vcVideo->isOpened();
 
         }
     }
-
-    qDebug() << "bPlay: " << bPlay;
+    qDebug() << "bPlay at end: " << bPlay;
 }
